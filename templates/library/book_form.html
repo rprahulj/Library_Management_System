@@ -1,0 +1,10 @@
+{% extends "base.html" %} {% block content %}
+<h2>{% if object %}Edit{% else %}Add{% endif %} book</h2>
+<form method="post" class="card card-body shadow-sm">
+  {% csrf_token %} {{ form.as_p }}
+  <div>
+    <button class="btn btn-primary">Save</button>
+    <a class="btn btn-link" href="{% url 'book_list' %}">Cancel</a>
+  </div>
+</form>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}My Borrow Book{% endblock %} 
+
+{% block content %}
+<h2>My Borrow Book</h2>
+<table class="table table-striped bg-white">
+  <thead>
+    <tr>
+      <th>Book</th>
+      <th>Borrowed</th>
+      <th>Due</th>
+      <th>Status</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for b in borrow %}
+    <tr>
+      <td>
+        <a href="{{ b.book.get_absolute_url }}">{{ b.book.title }}</a>
+        <small class="text-muted">{{ b.book.author.name }} </small>
+      </td>
+      <td>{{ b.borrowed_on|date:"d M Y" }}</td>
+      <td>{{ b.due_on|date:"d M Y" }}</td>
+      <td>
+        {% if b.returned_on %}
+            <span class="badge text-bg-secondary">Returned {{ b.returned_on|date:"d M" }}</span>
+        {% elif b.is_overdue %}
+            <span class="badge text-bg-danger">Overdue</span>
+        {% else %}
+            <span class="badge text-bg-success">On borrow</span>
+        {% endif %}
+      </td>
+      <td>
+        {% if not b.returned_on %}
+        <form action="{% url 'return_borrow' b.pk %}" method="post">
+          {% csrf_token %}
+          <button class="btn btn-sm btn-outlineprimary">
+            Return
+          </button>
+        </form>
+        {% endif %}
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="5">You have no borrow yet.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
