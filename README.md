@@ -14,7 +14,7 @@ Users can create an account, browse available books, borrow books, and view thei
 - Django
 - SQLite
 - HTML
-- CSS
+- Bootstrap
 - Django ORM
 
 ## Features
